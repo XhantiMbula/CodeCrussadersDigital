@@ -3,46 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets (2)/styles.css">
+    <link rel="stylesheet" href="./assets (2)/styles.css">
     <title>Digital Resource System</title>
-    <!--
-    <style>
-        .container{
-            text-align: center;
-        }
-
-        .main-content{
-           
-            display: grid;
-            width: 100%;
-            justify-content: center;
-            left: 0;
-            margin-left: 0;
-        }
-
-        .nav-header{
-        
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding-block: 1.5rem;
-            padding-inline: 2rem;
-            background-color:rgb(128, 143, 158);
-            color: white;
-        }
-
-        .nav-header .sidebar-title a{
-            text-decoration: none;
-            transition: all .4s ease-in-out;
-        }
-
-        .nav-header .sidebar-title a:hover{
-            color: white;
-            transition: all .4s ease-in-out;
-        }
-    </style>
-    -->
     <style>
         .user-info {
             display: none;
@@ -102,34 +64,19 @@
     </style>
 </head>
 <body>
-
-
-
-
    <div class="user-info">
     <span id="username">User</span>
     <button onclick="handleLogout()" class="button button-secondary" style="padding: 0.5rem 1rem; min-width: auto;">Logout</button>
     </div> 
 
-
-
-
     <main class="main-content">
         <div class="index-header">
-            <img src="../assets (2)/images (1)/CAPACITI Logo (2).png"
+            <img src="./assets (2)/images (1)/CAPACITI Logo (2).png"
                  class="welcome-logo" alt="logo"
                  style="width: 70px;"
                  >
             <h1>Code Crussaders</h1>
         </div>
-        
-        <!--
-            <div class="nav-header">
-                <div class="sidebar-title">
-                    <a href="index.html"> Code Crussaders</a>
-                </div>
-            </div>
-        -->
         
         <div class="container">
             <h1>Welcome to Code Crussaders Digital Resource System</h1>
@@ -141,8 +88,8 @@
                   materials, software tools, and start achieving your goals.</p>
             
             <div class="buttons">
-                <a href="login.html" class="button button-primary">Login</a>
-                <a href="register.html" class="button button-secondary">Register</a>
+                <a href="./root/login.html" class="button button-primary">Login</a>
+                <a href="./root/register.html" class="button button-secondary">Register</a>
             </div>
 
             <div class="services">
@@ -212,8 +159,10 @@
         </div>
     </main>
 
-    <script src="../assets (2)/layout.js"></script>
-    <script src="index.js"></script>
+    <!--<script src="../assets (2)/layout.js"></script> -->
+    <script src="./assets (2)/layout.js"></script>
+    <!--<script src="assets (2)/layout.js"></script>-->
+    <script src="./js/index.js"></script>
     
 
 </body>
