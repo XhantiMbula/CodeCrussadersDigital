@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets (2)/styles.css">
+    <link rel="stylesheet" href="../assets (2)/UserDashStyle.css"> 
+    <style>
+      /* Existing styles unchanged, adding new modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(214, 214, 214, 0.9);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        width: 90%;
+        max-width: 400px;
+      }
+      .modal.active {
+        display: block;
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      .modal-header h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 100;
+      }
+      .close-button {
+        color: #718096;
+        cursor: pointer;
+        background: rgba(214, 214, 214, 0.9);
+        border-radius: 50%;
+        width: 40px; height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .close-button:hover {
+        color: #718096;
+        cursor: pointer;
+        background-color:none;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+      .form-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+      .primary-button, .secondary-button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .primary-button {
+        background: rgb(40, 167, 69);
+        color: white;
+      }
+      .secondary-button {
+        background: #dc3545;
+        color: white;
+      }
+      /* New Profile Modal Styles */
+      .profile-modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(14, 13, 13, .9);
+        color: #e2e8f0;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        width: 90%;
+        max-width: 450px;
+        font-family: 'Poppins', sans-serif;
+        justify-content: left;
+      }
+      .profile-modal.active {
+        display: block;
+        
+      }
+      .profile-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #c0c0c0;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+      .profile-modal-header h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 100;
+        color: #ffffff;
+      }
+      .profile-modal .close-button svg {
+        stroke: #a0aec0;
+        transition: stroke 0.3s ease;
+      }
+      .profile-modal .close-button:hover svg {
+        stroke: #ffffff;
+      }
+      .profile-modal-content {
+        text-align: center;
+      }
+      .profile-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 15px;
+        background: #3b4a6b;
+        object-fit: cover;
+      }
+      .profile-detail {
+        margin: 10px 0;
+        font-size: 1rem;
+      }
+      .profile-detail label {
+        font-weight: 500;
+        color: #a0aec0;
+      }
+      .profile-detail span {
+        display: block;
+        color: #e2e8f0;
+        font-weight: 400;
+      }
+      .profile-modal-footer {
+        margin-top: 20px;
+        text-align: right;
+      }
+      .profile-modal-footer button {
+        background: #3182ce;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      .profile-modal-footer button:hover {
+        background: #2b6cb0;
+      }
+      /* Make user-info clickable */
+      .user-info {
+        cursor: pointer;
+      }
+      /* Existing styles unchanged below */
+      .download { font-weight: 100; padding-inline: 125px; width: 130px; background-color: #218838; }
+      .cancel { background-color: #c82333; }
+      .userDash_container { 
+        margin-bottom: 100px; 
+        margin-top: -9rem;
+      }
+      .main-content { top: 0; right: 0; }
+      .container {
+         margin-top: 0;
+         position: relative;
+      
+         width: 100%;
+         padding-inline: 90px;
+      }
+      .heder-container {
+        width: 100%;
+        margin-bottom: 20px;
+        background-image: url('../assets (2)/images (1)/capaciti_overview.jpg');
+        padding-top: 0;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 500px;
+        background-size: cover;
+        border-radius: 12px;
+       }
+      .welcome_title { color: white; font-size: 4rem; font-weight: 100; margin-bottom: 15rem; }
+      .user_header { display: flex; position: fixed; right: 0; z-index: 1; }
+      .user-info {
+        display: flex;          
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px; margin: 15px 15px;
+        padding: 5px 15px;
+        background: #000000;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        border-radius: 70px;
+      }
+      .account-icon svg { width: 28px; height: 28px; stroke: #e2e8f0; transition: stroke 0.3s ease; }
+
+      .user-name {  font-size: 300px;  font-weight: 500;  color: #e2e8f0; transition: color 0.3s ease;}
+      .user-info:hover .account-icon svg { stroke: #a0aec0; }
+      .user-info:hover .user-name { color: #fff; }
+      .user-info #userName {
+        font-weight: 100;
+        font-size: 1rem;
+         }
+      .search-wrapper { max-width: 600px; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .resource-footer { margin-top: auto; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .resource-type { color: #a0aec0; background: #718096; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .status-badge.pending { background: linear-gradient(90deg, #ff9800, #fb923c); }
+      .tab-button[data-tab="requests"] ~ .resource-grid .status-badge.approved { background: linear-gradient(90deg, #28a745, #34d058); }
+      .tab-button[data-tab="requests"] ~ .resource-grid .status-badge.rejected { background: linear-gradient(90deg, #dc3545, #f87171); }
+      .status-badge { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; }
+      .status-badge.pending { background-color: #fef3c7; color: #92400e; }
+      .status-badge.approved { background-color: #d1fae5; color: #065f46; }
+      .status-badge.rejected { background-color: #fee2e2; color: #991b1b; }
+      .action-button.download { color: white; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .resource-actions { position: static; margin-top: 12px; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .action-button { background: #718096; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .action-button:hover { background: #a0aec0; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .action-button svg { stroke: #e2e8f0; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .action-button.download { background: #28a745; position: absolute; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .action-button.download:hover { background: #218838; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .action-button.download svg { stroke: #fff; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .action-button.cancel { background: #dc3545; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .action-button.cancel:hover { background: #c82333; }
+      .tab-button[data-tab="requests"] ~ .resource-grid .action-button.cancel svg { stroke: #fff; }
+    </style>
+</head>
+<body>
+   <div id="header"></div>   
+  
+   <div class="user_header">
+    <div class="user-info" id="userInfo">
+      <span class="account-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </span>
+      <span class="user-name" id="userName">Loading...</span>
+    </div>  
+    <button id="notificationButton" class="icon-button" style="margin-right: 15px;">
+      <div class="notification-badge" style="display: block; 
+         border-radius: 50%; color: white; background-color: red; display: flex;
+        align-items: center; justify-content: center;
+        width: 20px; height: 20px;
+      ">0</div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+    </button>
+</div>
+   
+    
+    <main class="main-content" style="margin-top: .1rem;">
+      <div class="container">
+        <div class="userDash_container">
+          <div class="heder-container">
+            <h1 class="welcome_title"></h1>
+          </div>
+          <h2 style="font-weight: 100; font-size: 5rem; letter-spacing: 5px; margin-bottom: 20px;">Digital Resources</h2>
+          <div class="search-container">
+            <div class="search-wrapper">
+              <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+              <input type="text" id="searchInput" placeholder="Search resources..." class="search-input">
+            </div>
+          </div>
+          <div class="tabs">
+            <button class="tab-button active" data-tab="resources">Available Resources</button>
+            <button class="tab-button" data-tab="requests">My Requests</button>
+          </div>
+          <button id="requestNewResourceBtn" class="action-button" style="background: #3182ce; color: white; margin: 20px 0;">Request New Resource</button>
+          <div class="resource-grid" id="resourceGrid"></div>
+        </div>
+        <div id="footer"></div>
+      </div>
+
+      <div id="notificationsPanel" class="notifications-panel" style="display: none; position: fixed; top: 60px; right: 0; width: 300px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); z-index: 10;">
+        <div class="notifications-header" style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
+          <h3 style="margin: 0; font-size: 1.2rem;">Notifications</h3>
+          <button class="clear-all-button" style="background: none; border: none; color: #dc3545; cursor: pointer;">Clear All</button>
+        </div>
+        <div class="notifications-list" style="max-height: 300px; overflow-y: auto; padding: 10px;"></div>
+      </div>
+
+      <div id="requestModal" class="modal">
+        <div class="modal-header">
+          <h2>Request New Resource</h2>
+          <button class="close-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <form id="requestForm">
+          <div class="form-group">
+            <label for="resourceName">Resource Name</label>
+            <input type="text" id="resourceName" name="resourceName" required>
+          </div>
+          <div class="form-group">
+            <label for="resourceType">Resource Type</label>
+            <select id="resourceType" name="resourceType" required>
+              <option value="pdf">PDF</option>
+              <option value="training">Training</option>
+              <option value="course">Course</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="resourceDescription">Description (Optional)</label>
+            <textarea id="resourceDescription" name="resourceDescription" rows="4"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="secondary-button" id="cancelRequest">Cancel</button>
+            <button type="submit" class="primary-button">Send Request</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Add Profile Modal -->
+      <div id="profileModal" class="profile-modal">
+        <div class="profile-modal-header">
+          <h2>Profile</h2>
+          <button class="close-button" id="closeProfileModal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <div class="profile-modal-content">
+         <img src="../assets (2)/images (1)/profilePic.png" alt="Avatar" 
+         style="display: none;"
+         class="profile-avatar" id="profileAvatar">
+        
+          <div class="pPic">
+            <img src="../assets (2)/images (1)/profilePic.png"
+            style="border-radius: 50%; width: 100px; height: 100px;"
+            alt="" srcset="">
+          </div>
+          <div class="profile-detail">
+            <label>Name</label>
+            <span id="profileName">Loading...</span>
+          </div>
+          <div class="profile-detail">
+            <label>Email</label>
+            <span id="profileEmail">Loading...</span>
+          </div>
+          <div class="profile-detail">
+            <label>Role</label>
+            <span id="profileRole">Loading...</span>
+          </div>
+          <div class="profile-detail">
+            <label>Joined</label>
+            <span id="profileJoined">Loading...</span>
+          </div>
+          <div class="profile-detail">
+            <label>Last Login</label>
+            <span id="profileLastLogin">Loading...</span>
+          </div>
+        </div>
+        <div class="profile-modal-footer">
+          <button id="closeProfileBtn">Close</button>
+        </div>
+      </div>
+    </main>
+
+    <script src="../assets (2)/layout.js"></script>
+    <script src="../js/userDashMain.js" type="module"></script>
+
+
+    <script>
+      window.addEventListener('mouseover', initLandbot, { once: true });
+      window.addEventListener('touchstart', initLandbot, { once: true });
+      var myLandbot;
+      function initLandbot() {
+        if (!myLandbot) {
+          var s = document.createElement('script');
+          s.type = "module"
+          s.async = true;
+          s.addEventListener('load', function() {
+            var myLandbot = new Landbot.Livechat({
+              configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-2806540-3RKUG2ZCOXAIE2JP/index.json',
+            });
+          });
+          s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
+          var x = document.getElementsByTagName('script')[0];
+          x.parentNode.insertBefore(s, x);
+        }
+      }
+      </script>
+
+  </body>
+</html>
