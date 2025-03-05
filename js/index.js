@@ -45,7 +45,7 @@ function register(email, password) {
         .then(() => {
           alert("Registration successful! Redirecting to login...");
           setTimeout(() => {
-            window.location.href = "./index.html";
+            window.location.href = "login.html";
           }, 1000);
         })
         .catch((error) => {
